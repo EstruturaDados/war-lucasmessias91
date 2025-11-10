@@ -96,3 +96,61 @@ int main() {
 
 // limparBufferEntrada():
 // Função utilitária para limpar o buffer de entrada do teclado (stdin), evitando problemas com leituras consecutivas de scanf e getchar.
+
+
+#include <stdio.h>
+#include <string.h>
+#include <locale.h>
+
+#define QTD_TERRITORIOS 5
+#define TAM_NOME 50
+#define TAM_COR 20
+
+typedef struct {
+    char nome[TAM_NOME];
+    char cor[TAM_COR];
+    int tropas;
+} Territorio;
+
+void cadastrarTerritorios(Territorio mapa[]);
+void exibirMapa(const Territorio mapa[]);
+
+int main() {
+    setlocale(LC_ALL, "Portuguese");
+
+    Territorio mapa[QTD_TERRITORIOS];
+
+    printf("=== WAR ESTRUTURADO – NÍVEL NOVATO ===\n");
+    cadastrarTerritorios(mapa);
+    exibirMapa(mapa);
+
+    return 0;
+}
+
+void cadastrarTerritorios(Territorio mapa[]) {
+    for (int i = 0; i < QTD_TERRITORIOS; i++) {
+        printf("\n--- Cadastro do Território %d ---\n", i + 1);
+
+        printf("Nome do território: ");
+        fgets(mapa[i].nome, TAM_NOME, stdin);
+        mapa[i].nome[strcspn(mapa[i].nome, "\n")] = '\0';
+
+        printf("Cor do exército: ");
+        fgets(mapa[i].cor, TAM_COR, stdin);
+        mapa[i].cor[strcspn(mapa[i].cor, "\n")] = '\0';
+
+        printf("Número de tropas: ");
+        scanf("%d", &mapa[i].tropas);
+        getchar(); // limpa o \n
+    }
+}
+
+void exibirMapa(const Territorio mapa[]) {
+    printf("\n=== ESTADO ATUAL DO MAPA ===\n");
+    for (int i = 0; i < QTD_TERRITORIOS; i++) {
+        printf("\nTerritório %d\n", i + 1);
+        printf("Nome: %s\n", mapa[i].nome);
+        printf("Exército: %s\n", mapa[i].cor);
+        printf("Tropas: %d\n", mapa[i].tropas);
+    }
+}
